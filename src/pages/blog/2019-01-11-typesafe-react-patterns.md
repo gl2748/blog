@@ -39,7 +39,9 @@ Thinking of our component in these terms, it is clear that we should:
 
 
 ---
-1. is easiest. We define an interface keyed by parameter names. Within the interface, the type of each parameter can be defined. Voila, if you're familiar with defining the propTypes of your components this looks like it does the same thing, no?
+### 1.
+
+1 is easiest. We define an interface keyed by parameter names. Within the interface, the type of each parameter can be defined. Voila, if you're familiar with defining the propTypes of your components this looks like it does the same thing, no?
 
 ```
 import * as React from "react";
@@ -50,7 +52,8 @@ interface componentProps = {
 
 export default (props: componentProps) => <div>Hello {props.name}</div>
 ```
-2. is a little more tricky. The question is: "What does React do with this dom element that we are returning..." And the answer is to get your type from react, asking ourselves:
+### 2.
+2 is a little more tricky. The question is: "What does React do with this dom element that we are returning..." And the answer is to get your type from react, asking ourselves:
 
 ```React.someReactElementType<paramsInterfaceForThatType>```
 ```
@@ -99,8 +102,30 @@ const myComponent = (props: componentProps): React.ReactElement<componentProps> 
 export default myComponent;
 ```
 
-3. Is last, what is our component made up of, this is what we use to determine where it gets used. 
+### 3.
+3 is last, "What is our component made up of?" this is what we use to determine where it gets used safely. To start off we know that the variable `myComponent` is a react component, of which we have three to choose from,
+`FunctionComponent`, `RefForwardingComponent`, and `ComponentClass`. It's clearly the first one. Therefore our purely presentational component, with types becomes:
+
+```
+import * as React from "react";
+
+interface componentProps {
+    name: string
+}
+
+const myComponent: React.FunctionComponent<componentProps> = (props: componentProps): React.ReactElement<componentProps> => <div>Hello {props.name}</div>
+export default myComponent;
 
 
+```
 
-NB. Remember how I said it looks like the interface for our props is a bit like propTypes on the react element ?
+### Bonus.
+Remember how I said it looks like the interface for our props is a bit like propTypes on the react element? Well let's ask if we can give up on it?
+1. TypeScript is at compile time / ReactElement.propTypes is at run time, so we'll get nice errors if we're messing up. This is convenient for debugging some issues in development mode.
+2. Element.propTypes still exists as an optional property of the React elements interfaces, indicating that it can still be used. I think this is mostly useful for those writing libraries, e.g. component libraries for consumers who might not have typescript.
+
+That said, it's nice letting TypeScript manage our prop types, so I'm going to carry on doing it.
+
+
+## Presentational component
+
