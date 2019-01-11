@@ -7,9 +7,17 @@ tags:
   - React
   - Typescript
 ---
-This article explains the patterns demonstrated in my common react starter.
+# Introduction
 
-The common starter is built off \`create-react-app\` and includes the basics to get started with a new react web app.
+This article explains examples of the following common React patterns, written in Typescript:
+
+* Presentational components
+* Container components
+* Higher Order Components
+
+It is hoped that this will give some 
+
+## Setup
 
 * Language - Typescript
 * Framework - React
