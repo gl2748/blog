@@ -127,5 +127,10 @@ Remember how I said it looks like the interface for our props is a bit like prop
 That said, it's nice letting TypeScript manage our prop types, so I'm going to carry on doing it.
 
 
-## Presentational component
+## Container component
+
+Container components are a react-redux pattern, they refer to components that connect one-or-many other components to the redux store. They are typically made up by two functions, `mapStateToProps` and `mapDispatchToProps`. This pattern helps us keep as many of our components as function components, rather than the more heavy weight (and more stateful) class components that seem to be on the way out...
+
+```
+import {
 
