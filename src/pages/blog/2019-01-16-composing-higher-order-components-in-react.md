@@ -28,14 +28,34 @@ Here we wrap our `User`component in two HOCs `withOnMount` and `withLoading`, wh
 
 ```
 const withState = connect(mapStateToProps, mapDispatchToProps)
-
-const UserContainer = compose(
+export default compose<any, any, any, any>(
     withState,
     withOnMount,
-    withLoading,
-    User
-)
+    withLoading
+)(User);
+```
+Here our enhancements are composed together and applied against the deepest nested function from the earlier example. Esentiall we turned: 
+
+```
+const result = a(b(c))
+```
+into
+```
+const result = compose(a,b)(c)
+```
+where
+```
+const compose = (...fns) => (args) => {
+fns.reduce((acc, ))
+
+}
+
 ```
 
 The key to achieving this is the [compose method, which we will take from Ramda](https://ramdajs.com/docs/#compose), and ensuring each of our HOCs has the function signature of only taking in one parameter, of the same type returned by the preceding function. In our case:
 `Component => Component`
+
+
+## Bonus - DIY compose
+
+<iframe src="https://codesandbox.io/embed/815862qxz0" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
