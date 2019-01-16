@@ -45,15 +45,12 @@ const result = compose(a,b)(c)
 ```
 where
 ```
-const compose = (...fns) => (args) => {
-fns.reduce((acc, ))
-
-}
+const compose = (...fns) => fns.reduce((f, g) => (...args) => f(g(...args)));
 
 ```
 
 The key to achieving this is the [compose method, which we will take from Ramda](https://ramdajs.com/docs/#compose), and ensuring each of our HOCs has the function signature of only taking in one parameter, of the same type returned by the preceding function. In our case:
-`Component => Component`
+`Component => Component` In fact, with compose generally, the rule is that the first method have the maximum number of allowed arguments.
 
 
 ## Bonus - DIY compose
