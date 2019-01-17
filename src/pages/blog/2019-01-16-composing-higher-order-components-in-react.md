@@ -55,4 +55,6 @@ The key to achieving this is the [compose method, which we will take from Ramda]
 
 ## Bonus - DIY compose
 
+Here is a little codesandbox of the three passes I took at writing a compose function of my own, when exploring the concepts in this post.
+
 <iframe src="https://codesandbox.io/embed/815862qxz0" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
