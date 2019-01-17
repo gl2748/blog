@@ -5,7 +5,41 @@ date: 2019-01-16T15:56:58.177Z
 description: >-
   Compose is a functional programming paradigm that makes the execution of the
   transformations that functions effect on data more declarative. It makes these
-  transformations easier to reason about by presenting them in a linear way. 
+  transformations easier to reason about by presenting them in a linear way.
+  e.g.
+
+  ```js
+
+  const x = 10
+
+
+  const add = p => q => p + q;
+
+
+  const add1 = add(1)
+
+  const add2 = add(2)
+
+
+  // Note that here the accumulating value is itself a function.
+
+  const reducer = (acc, curr) => (...args) => {
+    return curr(acc(...args));
+  };
+
+
+  const compose = (...fns) => fns.reduce(reducer);
+
+
+  const calc = compose(
+    add1,
+    add2
+  )(x)
+
+
+  // calc = 13
+
+  ```
 tags:
   - react javascript functional
 ---
