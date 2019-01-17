@@ -7,42 +7,33 @@ description: >-
   transformations that functions effect on data more declarative. It makes these
   transformations easier to reason about by presenting them in a linear way.
   e.g.
-
-  ```js
-
-  const x = 10
-
-
-  const add = p => q => p + q;
-
-
-  const add1 = add(1)
-
-  const add2 = add(2)
-
-
-  // Note that here the accumulating value is itself a function.
-
-  const reducer = (acc, curr) => (...args) => {
-    return curr(acc(...args));
-  };
-
-
-  const compose = (...fns) => fns.reduce(reducer);
-
-
-  const calc = compose(
-    add1,
-    add2
-  )(x)
-
-
-  // calc = 13
-
-  ```
 tags:
   - react javascript functional
 ---
+
+```js
+const x = 10
+
+const add = p => q => p + q;
+
+const add1 = add(1)
+const add2 = add(2)
+
+// Note that here the accumulating value is itself a function.
+const reducer = (acc, curr) => (...args) => {
+  return curr(acc(...args));
+};
+
+const compose = (...fns) => fns.reduce(reducer);
+
+const calc = compose(
+  add1,
+  add2
+)(x)
+
+// calc = 13
+```
+
 In React we often wrap "Function Components" in "Higher Order Components" in order to inject additional props into them and to cherry-pick some component life-cycle-methods that we want them to make use of.
 
 [Maximizing composability of React HOCs is recommended in the docs](https://reactjs.org/docs/higher-order-components.html#convention-maximizing-composability)
