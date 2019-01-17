@@ -34,7 +34,7 @@ export default compose<any, any, any, any>(
     withLoading
 )(User);
 ```
-Here our enhancements are composed together and applied against the deepest nested function from the earlier example. Esentiall we turned: 
+Here our enhancements are composed together and applied against the deepest nested function from the earlier example. Essentially we turned: 
 
 ```
 const result = a(b(c))
@@ -43,18 +43,30 @@ into
 ```
 const result = compose(a,b)(c)
 ```
-where
+where (See the codesandbox below or how I rolled my own compose.
 ```
 const compose = (...fns) => fns.reduce((f, g) => (...args) => f(g(...args)));
 
 ```
 
 The key to achieving this is the [compose method, which we will take from Ramda](https://ramdajs.com/docs/#compose), and ensuring each of our HOCs has the function signature of only taking in one parameter, of the same type returned by the preceding function. In our case:
-`Component => Component` In fact, with compose generally, the rule is that the first method have the maximum number of allowed arguments.
+`Component => Component` In fact, with compose generally, the rule is that the first method have the maximum number of allowed arguments, with subsequent composed methods being unary.
+
+Finally the question becomes resolving the types for each method passed to `compose`.
 
 
 ## Bonus - DIY compose
 
 Here is a little codesandbox of the three passes I took at writing a compose function of my own, when exploring the concepts in this post.
+
+Some interesting discoveries were:
+Getting the compose function to accomodate more-than-one argument in the initial function.
+
+
+Achieving this in the final version is a reduce function much like the earlier versions, except that the reducer has as its accumulator another function. Basically "The accumulating value is a function and it's growing the closure scope."
+
+> Since return values in JS can only be a single value (unlike, say, Go), I think it accommodates for that initial function. Subsequent functions must share the signature x => y.
+
+Finally, with this reducer, we have a segue into transducers - or reducers that make new reducers.
 
 <iframe src="https://codesandbox.io/embed/815862qxz0" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
