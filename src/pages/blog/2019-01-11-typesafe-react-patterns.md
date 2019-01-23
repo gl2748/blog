@@ -84,7 +84,7 @@ interface ReactElement<P> {
 React obviously infers and assigns the type, along with the key, letting us have some say over the Props, ultimately passed to the component.
 
 This is interesting because we can see in the types of the codebase where our work and the React framework interface. Furthermore, how React apportions responsibilities points to good patterns to follow. Basically this type says:
- > "Hey buddy, you focus on the props of the component, make sure that's defined, we've got you for the rest of what makes up the component. And besides your options are limited, class component or function component or a string :-) Go look them up..."
+ > "Hey buddy, you focus on the props of the component, make sure that's defined, we've got you for the rest of what makes up the component. And besides your options are limited, class component or function component or a string :-)"
 
 With this in mind our component becomes:
 ```
@@ -103,7 +103,7 @@ export default myComponent;
 ```
 
 ### 3.
-3 is last, "What is our component made up of?" this is what we use to determine where it gets used safely. To start off we know that the variable `myComponent` is a react component, of which we have three to choose from,
+3 is last, "What is our component made up of?" this is what we use to determine where it gets used safely. To start off we know that the variable `myComponent` is a react element, of which we have three to choose from,
 `FunctionComponent`, `RefForwardingComponent`, and `ComponentClass`. It's clearly the first one. Therefore our purely presentational component, with types becomes:
 
 ```
