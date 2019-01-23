@@ -49,7 +49,7 @@ const UserContainer = connect(
 export default UserContainer;
 ```
 
-Here we wrap our `User`component in two HOCs `withOnMount` and `withLoading`, where withOnMount is an HOC that adds a lifecycle method and withLoading displays a loading animation while our User component has a loading prop of true. All this is nice but it's nested and messy, it has an opinion of the order in which our component is wrapped, where in fact we're agnostic. This would be nicer:
+Here we wrap our `User`component in two HOCs `withOnMount` and `withLoading`, where withOnMount is an HOC that adds a lifecycle method and withLoading displays a loading animation while our User component has a loading prop of true. All this is nice but it's nested and messy. This would be nicer:
 
 ```
 const withState = connect(mapStateToProps, mapDispatchToProps)
@@ -68,14 +68,14 @@ into
 ```
 const result = compose(a,b)(c)
 ```
-where (See the codesandbox below or how I rolled my own compose.
+where: (See the Codesandbox below for how I rolled my own compose.)
 ```
 const compose = (...fns) => fns.reduce((f, g) => (...args) => f(g(...args)));
 
 ```
 
 The key to achieving this is the [compose method, which we will take from Ramda](https://ramdajs.com/docs/#compose), and ensuring each of our HOCs has the function signature of only taking in one parameter, of the same type returned by the preceding function. In our case:
-`Component => Component` In fact, with compose generally, the rule is that the first method have the maximum number of allowed arguments, with subsequent composed methods being unary.
+`Component => Component` In fact, with compose generally, the rule is that the first method have the maximum number of allowed arguments (unlimited arity), with subsequent composed methods being unary (arity of one).
 
 Finally the question becomes resolving the types for each method passed to `compose`.
 
