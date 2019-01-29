@@ -77,7 +77,7 @@ const compose = (...fns) => fns.reduce((f, g) => (...args) => f(g(...args)));
 The key to achieving this is the [compose method, which we will take from Ramda](https://ramdajs.com/docs/#compose), and ensuring each of our HOCs has the function signature of only taking in one parameter, of the same type returned by the preceding function. In our case:
 `Component => Component` In fact, with compose generally, the rule is that the first method have the maximum number of allowed arguments (unlimited arity), with subsequent composed methods being unary (arity of one).
 
-Finally the question becomes resolving the types for each method passed to `compose`.
+Finally the question becomes resolving the types for each method passed to `compose` which is perhaps material for another short blog post or gist ... (once I have it figured out!).
 
 
 ## Bonus - DIY compose
