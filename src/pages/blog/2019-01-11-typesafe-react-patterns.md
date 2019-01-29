@@ -127,10 +127,35 @@ Remember how I said it looks like the interface for our props is a bit like prop
 That said, it's nice letting TypeScript manage our prop types, so I'm going to carry on doing it.
 
 
+## Container Components
+
+Container components are a react-redux pattern, they refer to components that connect one-or-many other components to the redux store. They are typically made up by two functions, `mapStateToProps` and `mapDispatchToProps`. This pattern helps us keep as many of our components as function components, rather than the more heavy weight (and more stateful) class components. I.e. the container is where you access the store, passing one or many 
+
 ## Higher Order Components
 
-Container components are a react-redux pattern, they refer to components that connect one-or-many other components to the redux store. They are typically made up by two functions, `mapStateToProps` and `mapDispatchToProps`. This pattern helps us keep as many of our components as function components, rather than the more heavy weight (and more stateful) class components.
+In the same way container components help separate components from the store (seperation of concerns), higher order components let us inject props into our components in such a way that commonly injected behavior is abstracted away from the component. For example many components have a loading prop to indicate that they depend on data that is not yet available, or that is updating. In this way an HOC might look like this:
+```
+export function withLoading(WrappedComponent){
+  const HOC = class extends React.Component {
+    render() {
+      const { loading } = this.props;
+      return loading ? <div>"loading"</div> : <WrappedComponent {...this.props} />
+    }
+  }
+  return HOC;
+}
+```
+
+And with types it looks like this:
 
 ```
-import {
-
+export function withLoading<P extends object>(WrappedComponent: React.ComponentType<P>): React.ComponentType<P & WithLoadingProps> {
+  const HOC = class extends React.Component<P & WithLoadingProps> {
+    render() {
+      const { loading } = this.props;
+      return loading ? <div>"loading"</div> : <WrappedComponent {...this.props} />
+    }
+  }
+  return HOC;
+}
+```
