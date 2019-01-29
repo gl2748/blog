@@ -41,16 +41,16 @@ Thinking of our component in these terms, it is clear that we should:
 ---
 ### 1.
 
-1 is easiest. We define an interface keyed by parameter names. Within the interface, the type of each parameter can be defined. Voila, if you're familiar with defining the propTypes of your components this looks like it does the same thing, no?
+1 is easiest. We define an interface keyed by parameter names. Within the interface, the type of each parameter can be defined. Voila, if you're familiar with defining the propTypes of your components this looks familiar.
 
 ```
 import * as React from "react";
 
-interface componentProps = {
+interface IComponentProps = {
   name: string
 }
 
-export default (props: componentProps) => <div>Hello {props.name}</div>
+export default (props: IComponentProps) => <div>Hello {props.name}</div>
 ```
 ### 2.
 2 is a little more tricky. The question is: "What does React do with this dom element that we are returning..." And the answer is to get your type from react, asking ourselves:
@@ -59,11 +59,11 @@ export default (props: componentProps) => <div>Hello {props.name}</div>
 ```
 import * as React from "react";
 
-interface componentProps {
+interface IComponentProps {
     name: string
 }
 
-const myComponent = (props: componentProps): React.ReactElement<any> =>
+const myComponent = (props: IComponentProps): React.ReactElement<any> =>
     <div>
         Hello {props.name}
     </div>
@@ -90,11 +90,11 @@ With this in mind our component becomes:
 ```
 import * as React from "react";
 
-interface componentProps {
+interface IComponentProps {
     name: string
 }
 
-const myComponent = (props: componentProps): React.ReactElement<componentProps> =>
+const myComponent = (props: IComponentProps): React.ReactElement<IComponentProps> =>
     <div>
         Hello {props.name}
     </div>
@@ -109,11 +109,11 @@ export default myComponent;
 ```
 import * as React from "react";
 
-interface componentProps {
+interface IComponentProps {
     name: string
 }
 
-const myComponent: React.FunctionComponent<componentProps> = (props: componentProps): React.ReactElement<componentProps> => <div>Hello {props.name}</div>
+const myComponent: React.FunctionComponent<IComponentProps> = (props: componentProps): React.ReactElement<IComponentProps> => <div>Hello {props.name}</div>
 export default myComponent;
 
 
@@ -127,7 +127,7 @@ Remember how I said it looks like the interface for our props is a bit like prop
 That said, it's nice letting TypeScript manage our prop types, so I'm going to carry on doing it.
 
 
-## Container component
+## Higher Order Components
 
 Container components are a react-redux pattern, they refer to components that connect one-or-many other components to the redux store. They are typically made up by two functions, `mapStateToProps` and `mapDispatchToProps`. This pattern helps us keep as many of our components as function components, rather than the more heavy weight (and more stateful) class components.
 
