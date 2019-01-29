@@ -56,6 +56,8 @@ export default (props: IComponentProps) => <div>Hello {props.name}</div>
 2 is a little more tricky. The question is: "What does React do with this dom element that we are returning..." And the answer is to get your type from react, asking ourselves:
 
 ```React.someReactElementType<paramsInterfaceForThatType>```
+
+
 ```
 import * as React from "react";
 
@@ -131,9 +133,39 @@ That said, it's nice letting TypeScript manage our prop types, so I'm going to c
 
 Container components are a react-redux pattern, they refer to components that connect one-or-many other components to the redux store. They are typically made up by two functions, `mapStateToProps` and `mapDispatchToProps`. This pattern helps us keep as many of our components as function components, rather than the more heavy weight (and more stateful) class components. I.e. the container is where you access the store, passing one or many 
 
+In terms of typings, container components are perhaps the least complicated, we simply define interfaces for the objects returned by each of our redux functions, `mapStateToProps` and `mapDispatchToProps`.
+
+```
+import { Dispatch } from "redux";
+
+export interface IHeaderContainerProps {
+  tag: string;
+}
+
+interface IDispatchProps {
+  onMount: Array<Function>;
+}
+
+const mapStateToProps = (store: any, ownProps: any): IHeaderContainerProps => {
+  const tag = store.tag
+  return {
+    tag
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: any): IDispatchProps => {
+  const getLoginLink = () => () => {
+    dispatch(getLoginLink())
+  }
+  return {
+    onMount: [getLoginLink()]
+  };
+};
+```
+
 ## Higher Order Components
 
-In the same way container components help separate components from the store (seperation of concerns), higher order components let us inject props into our components in such a way that commonly injected behavior is abstracted away from the component. For example many components have a loading prop to indicate that they depend on data that is not yet available, or that is updating. In this way an HOC might look like this:
+In the same way container components help separate components from the store (separation of concerns), higher order components let us inject props into our components in such a way that commonly injected behavior is abstracted away from the component. For example many components have a loading prop to indicate that they depend on data that is not yet available, or that is updating. In this way an HOC might look like this:
 ```
 export function withLoading(WrappedComponent){
   const HOC = class extends React.Component {
@@ -149,6 +181,11 @@ export function withLoading(WrappedComponent){
 And with types it looks like this:
 
 ```
+
+interface WithLoadingProps {
+  loading: Boolean;
+}
+
 export function withLoading<P extends object>(WrappedComponent: React.ComponentType<P>): React.ComponentType<P & WithLoadingProps> {
   const HOC = class extends React.Component<P & WithLoadingProps> {
     render() {
@@ -159,3 +196,8 @@ export function withLoading<P extends object>(WrappedComponent: React.ComponentT
   return HOC;
 }
 ```
+
+Here we clearly express the idea that our HOC takes in a react component and returns a react component, (this characteristic makes it composable) furthermore it expresses the idea that the 'loading' prop is added to the incoming component's props and used for something.
+
+And that's it. For more on using HOCs and composing in React take a look at my next article.
+[Composing HOCs in React.](https://blog.iainmaitland.com/blog/2019-01-16-composing-higher-order-components-in-react/)
